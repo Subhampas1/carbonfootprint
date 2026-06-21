@@ -1,0 +1,23 @@
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+env = [
+  "USE_GEMINI=false",
+  "USE_FIRESTORE=false",
+  "USE_BIGQUERY=false",
+  "USE_PUBSUB=false",
+  "PROJECT_ID=vinay-carbonfootprint"
+]
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+fail_under = 90

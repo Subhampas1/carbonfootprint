@@ -1,0 +1,116 @@
+/* ==========================================================================
+   Carbon Footprint Awareness Platform — Global Styles
+   Uses Tailwind CSS as the utility foundation.
+   Custom classes below handle skip links, focus rings, and typography.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --------------------------------------------------------------------------
+   Base resets & typography
+   -------------------------------------------------------------------------- */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900;
+    margin: 0;
+  }
+
+  /* Respect user's reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* High-contrast focus rings for keyboard navigation */
+  :focus-visible {
+    outline: 2px solid #16a34a;
+    outline-offset: 2px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Skip Link
+   WCAG 2.1 Success Criterion 2.4.1 — Bypass Blocks
+   -------------------------------------------------------------------------- */
+@layer components {
+  .skip-link {
+    @apply sr-only;
+  }
+
+  .skip-link:focus {
+    @apply not-sr-only absolute top-4 left-4 z-50;
+    @apply bg-primary-700 text-white px-4 py-2 rounded-md;
+    @apply outline-none ring-2 ring-white ring-offset-2;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Tabular numbers for all numeric displays
+   -------------------------------------------------------------------------- */
+@layer utilities {
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Recharts — ensure no SVG elements interfere with focus management
+   -------------------------------------------------------------------------- */
+.recharts-wrapper {
+  outline: none !important;
+}
+
+.recharts-wrapper svg {
+  overflow: visible;
+}
+
+/* --------------------------------------------------------------------------
+   Smooth scrolling target offset (so sticky header doesn't cover content)
+   -------------------------------------------------------------------------- */
+#main-content {
+  scroll-margin-top: 72px;
+}
+
+/* --------------------------------------------------------------------------
+   Print styles — strip chrome, show only content
+   -------------------------------------------------------------------------- */
+@media print {
+  header,
+  footer,
+  button,
+  nav {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .bg-white {
+    border: 1px solid #e5e7eb !important;
+  }
+}

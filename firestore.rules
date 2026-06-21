@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // -----------------------------------------------------------------------
+    // carbon_entries collection
+    // Public read (limited to 20 entries per query) and create-only writes.
+    // No update or delete permitted — entries are append-only for auditability.
+    // -----------------------------------------------------------------------
+    match /carbon_entries/{entryId} {
+
+      // Allow read if:
+      //   - Query is paginated (limit <= 20)
+      //   - Querying by own device_id (enforced at the API layer)
+      allow read: if request.auth == null
+                  && resource != null
+                  && request.query.limit <= 20;
+
+      // Allow create if the document contains required fields with valid types/ranges
+      allow create: if request.auth == null
+                    && request.resource.data.keys().hasAll([
+                         'device_id', 'timestamp', 'total_kg', 'breakdown'
+                       ])
+                    // device_id: string, 8–64 chars
+                    && request.resource.data.device_id is string
+                    && request.resource.data.device_id.size() >= 8
+                    && request.resource.data.device_id.size() <= 64
+                    // total_kg: non-negative number, reasonable upper bound
+                    && request.resource.data.total_kg is number
+                    && request.resource.data.total_kg >= 0
+                    && request.resource.data.total_kg <= 500000
+                    // breakdown: must be a map
+                    && request.resource.data.breakdown is map;
+
+      // No updates or deletes — entries are immutable
+      allow update, delete: if false;
+    }
+
+    // All other documents and collections are denied
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
