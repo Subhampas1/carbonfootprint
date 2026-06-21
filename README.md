@@ -80,7 +80,7 @@ User Inputs (transport, home, diet, consumption)
 
 ```bash
 # 1. Clone the repo
-git clone [https://github.com/Subhampas1/carbonfootprint.git
+git clone https://github.com/Subhampas1/carbonfootprint.git
 cd carbon-tracker
 
 # 2. Backend — with feature flags disabled (no GCP credentials needed)
