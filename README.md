@@ -15,7 +15,7 @@
 ## Live Demo
 
 The platform is deployed and live at:
-👉 **[https://carbon-tracker-962545646921.us-central1.run.app](https://carbon-tracker-962545646921.us-central1.run.app)**
+👉 **[https://carbon-tracker-187396398059.us-central1.run.app](https://carbon-tracker-187396398059.us-central1.run.app)**
 
 ---
 
@@ -117,18 +117,18 @@ npm test
 ```bash
 # Authenticate
 gcloud auth login
-gcloud config set project myorg-carbonfootprint
+gcloud config set project promptwar-2026
 
 # Build and push image
-gcloud builds submit --tag gcr.io/myorg-carbonfootprint/carbon-tracker .
+gcloud builds submit --tag gcr.io/promptwar-2026/carbon-tracker .
 
 # Deploy to Cloud Run
 gcloud run deploy carbon-tracker \
-  --image gcr.io/myorg-carbonfootprint/carbon-tracker \
+  --image gcr.io/promptwar-2026/carbon-tracker \
   --region us-central1 \
   --platform managed \
   --allow-unauthenticated \
-  --set-env-vars PROJECT_ID=myorg-carbonfootprint,REGION=us-central1,ENVIRONMENT=production
+  --set-env-vars PROJECT_ID=promptwar-2026,REGION=us-central1,ENVIRONMENT=production
 ```
 
 ---
